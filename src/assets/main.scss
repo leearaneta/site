@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "ff7";
+  src:
+    url("fonts/final-fantasy-vii-pro.otf") format("otf"),
+    url("fonts/final-fantasy-vii-pro.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "ff7";
+  letter-spacing: 1px;
+  color: white;
+  text-shadow: 2px 2px rgb(50, 50, 50);
+  background-color: black;
+  font-size: 1.2rem;
+}
+
+@media screen and (max-height: 500px) {
+  body {
+    font-size: 1rem;
+  }
+}
+
+.section {
+  position: relative;
+  background: -webkit-radial-gradient(-5% 0px, circle, #0053ad 30%, #001b85 60%, #000223);
+
+  background-clip: padding-box;
+  border: solid 6px transparent;
+  border-style: inset;
+  border-radius: 6px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 1px; bottom: 0; left: 1px;
+    z-index: -1;
+    margin: -6px;
+    border-style: inherit;
+    border-radius: inherit;
+    background:
+      linear-gradient(to bottom, rgb(75, 75, 75) 0px, white 3px, rgb(75, 75, 75) 6px, rgba(0,0,0,0)),
+      linear-gradient(to top, rgb(75, 75, 75) 0px, white 3px, rgb(75, 75, 75) 6px)
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 5px; right: 0; bottom: 5px; left: 0;
+    z-index: -1;
+    margin: -6px;
+    border-style: inherit;
+    border-radius: inherit;
+    background:
+      linear-gradient(to right, rgb(75, 75, 75) 0px, white 3px, rgb(75, 75, 75) 6px, rgba(0,0,0,0)),
+      linear-gradient(to left, rgb(75, 75, 75) 0px, white 3px, rgb(75, 75, 75) 6px)
+  }
+}
+
+@keyframes flicker {
+  $steps:20;
+  @for $i from 0 through $steps {
+    #{percentage($i*(calc(1/$steps)))} {
+      opacity:random();
+    }
+  }
+}
+
+.crt::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  z-index: 5;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+}
+.crt::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 5;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+.crt {
+  height: 100vh;
+  /* animation: textShadow 1.6s infinite; */
+}
