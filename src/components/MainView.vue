@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import VerticalSelection from './VerticalSelection.vue';
 import TheProfile from './TheProfile.vue';
 import WorkExperience from './WorkExperience.vue'
 import TheSkills from './TheSkills.vue';
 import TheProjects from './TheProjects.vue';
 import TheCallie from './TheCallie.vue';
+
+const width = ref(window.innerWidth)
+
+onMounted(() => {
+  window.onresize = () => {
+    width.value = window.innerWidth
+  }
+})
 
 const selected = ref('Work Experience')
 </script>
@@ -20,7 +28,7 @@ const selected = ref('Work Experience')
       </div>
     </Transition>
     <Transition name="down" appear>
-      <div class="menu">
+      <div v-if="width >= 750" class="menu">
         <div class="h-full section py-4 px-2">
           <VerticalSelection
             :options="['Work Experience', 'Skills', 'Projects', 'Callie']"
@@ -30,8 +38,8 @@ const selected = ref('Work Experience')
       </div>
     </Transition>
     <Transition name="left" appear>
-      <div class="body">
-        <div class="h-full section py-4 pl-10 pr-20 flex flex-col">
+      <div v-if="width >= 750" class="body">
+        <div class="h-full section py-4 pl-10 pr-28 flex flex-col">
           <WorkExperience v-if="selected === 'Work Experience'" />
           <TheSkills v-if="selected === 'Skills'" />
           <TheProjects v-if="selected === 'Projects'" />
@@ -40,19 +48,19 @@ const selected = ref('Work Experience')
       </div>
     </Transition>
     <Transition name="right" appear>
-      <div class="time">
+      <div v-if="width >= 750" class="time">
         <div class="h-full section p-4"> what goes here? </div>
       </div>
     </Transition>
     <Transition name="right" appear>
-      <div class="location">
+      <div v-if="width >= 750" class="location">
         <div class="h-full section p-4 flex items-center"> Brooklyn, NY </div>
       </div>
     </Transition>
     <Transition name="up" appear>
-      <div class="scrollable">
+      <div v-if="width < 750" class="scrollable">
         <div class="h-full section flex flex-col">
-          <div class="overflow-scroll p-4">
+          <div class="overflow-scroll w-full p-4">
             <div class="mb-4">
               <div class="mb-2"> Work Experience </div>
               <div> <WorkExperience /> </div>
@@ -65,9 +73,9 @@ const selected = ref('Work Experience')
               <div class="mb-2"> Projects </div>
               <div> <TheProjects /> </div>
             </div>
-            <div>
-              <div class="mb-2"> Callie </div>
-              <div> <TheCallie /> </div>
+            <div class="h-full">
+              <div class="mb-4"> Callie </div>
+              <div class="h-full pb-2"> <TheCallie /> </div>
             </div>
           </div>
         </div>
@@ -84,11 +92,11 @@ const selected = ref('Work Experience')
 
 @media screen and (min-width: 1000px) {
   .grid {
-    max-width: 75vw;
+    max-width: 1000px;
   }
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 750px) {
   .grid {
     margin: auto;
     grid-template-columns: 1fr 30rem 5rem 15rem;
@@ -126,13 +134,9 @@ const selected = ref('Work Experience')
     grid-column: 3 / 5;
     grid-row: 6 / 8;
   }
-
-  .scrollable {
-    display: none;
-  }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 750px) {
   .grid {
     grid-template-rows: 25vh 75vh;
     overflow: hidden;
@@ -149,10 +153,6 @@ const selected = ref('Work Experience')
   .profile-padding {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
-  }
-
-  .menu, .body, .time, .location {
-    display: none;
   }
 
 }

@@ -5,7 +5,7 @@
 <template>
   <div class="flex w-full">
     <img class="image" :src="profile"/>
-    <div class="container flex flex-wrap justify-evenly">
+    <div class="container flex flex-wrap shrink-0">
       <div class="flex flex-col">
         <span class="mb-1"> Lee Araneta </span>
         <span class="title"> Software Engineer </span>
@@ -34,9 +34,9 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 750px) {
   .container {
     justify-content: space-between;
     flex-direction: column;
@@ -44,7 +44,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 750px) {
   .title, .image {
     display: none;
   }

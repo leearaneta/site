@@ -18,6 +18,7 @@ body {
   text-shadow: 2px 2px rgb(50, 50, 50);
   background-color: black;
   font-size: 1.2rem;
+  overflow: hidden;
 }
 
 @media screen and (max-height: 500px) {
@@ -66,7 +67,7 @@ body {
   $steps:20;
   @for $i from 0 through $steps {
     #{percentage($i*(calc(1/$steps)))} {
-      opacity:random();
+      opacity: ((random() + 1) / 2);
     }
   }
 }
