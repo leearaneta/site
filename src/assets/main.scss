@@ -67,7 +67,7 @@ body {
   $steps:20;
   @for $i from 0 through $steps {
     #{percentage($i*(calc(1/$steps)))} {
-      opacity: ((random() + 1) / 2);
+      opacity: calc((random() + 1) / 2);
     }
   }
 }

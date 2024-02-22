@@ -5,7 +5,7 @@
   >
     <div class="flex">
       <span
-        class="flex-none mb-2 mt-2"
+        class="flex-none mt-3 mb-3"
         :class="{ invisible: idx !== selectedIndex }"
       >
         <img width="36" :src="cursor"/>
