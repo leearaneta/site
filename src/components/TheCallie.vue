@@ -25,6 +25,8 @@
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import cursormove from '@/assets/cursormove.mp3'
 
+const props = defineProps<{ urls: string[], chunkSize: number }>()
+
 const groups = ref<string[][]>([])
 const groupIndex = ref(0)
 const transition = ref('forward')
@@ -75,7 +77,6 @@ function onTouchEnd(e: TouchEvent) {
   touchstartX.value = undefined
 }
 
-const urls = ref<string[]>([])
 const container = ref<HTMLElement>()
 
 function calculateImageGroups(urls: string[]): Promise<string[][]> {
@@ -167,7 +168,7 @@ const loadedURLIndex = ref(-1)
 
 async function resetImageGroups() {
   groupIndex.value = 0
-  const loadedURLs = urls.value.slice(0, loadedURLIndex.value + 1)
+  const loadedURLs = props.urls.slice(0, loadedURLIndex.value + 1)
   groups.value = await calculateImageGroups(loadedURLs)
 }
 const resizeObserver = ref(
@@ -175,14 +176,6 @@ const resizeObserver = ref(
 )
 
 onMounted(async () => {
-  const response = await fetch('https://cdn.jsdelivr.net/gh/leearaneta/callie@main/files.txt')
-  const text = await response.text()
-  urls.value = text.split('\n')
-    .map(filename => `https://cdn.jsdelivr.net/gh/leearaneta/callie@main/${filename}`)
-    .map(value => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value)
-
   window.addEventListener('keydown', handleKeyDown, false)
 })
 
@@ -192,10 +185,10 @@ onUnmounted(() => {
 
 watch(groupIndex, async (newVal) => {
   if (newVal >= groups.value.length - 3) {
-    const urlsToLoad = urls.value.slice(loadedURLIndex.value + 1, loadedURLIndex.value + 11)
+    const urlsToLoad = props.urls.slice(loadedURLIndex.value + 1, loadedURLIndex.value + props.chunkSize + 1)
     const newGroups = await calculateImageGroups(urlsToLoad)
     groups.value = [...groups.value, ...newGroups]
-    loadedURLIndex.value += 10
+    loadedURLIndex.value += props.chunkSize
   }
 }, { immediate: true })
 

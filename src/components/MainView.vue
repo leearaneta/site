@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import cursormove from '@/assets/cursormove.mp3'
 import VerticalSelection from './VerticalSelection.vue';
 import TheProfile from './TheProfile.vue';
 import WorkExperience from './WorkExperience.vue'
@@ -8,14 +9,37 @@ import TheProjects from './TheProjects.vue';
 import TheCallie from './TheCallie.vue';
 
 const width = ref(window.innerWidth)
+const urls = ref<string[]>([])
+const chunkSize = 10
 
-onMounted(() => {
+onMounted(async () => {
   window.onresize = () => {
     width.value = window.innerWidth
   }
+  const response = await fetch('https://cdn.jsdelivr.net/gh/leearaneta/callie@main/files.txt')
+  const text = await response.text()
+  urls.value = text.split('\n')
+    .map(filename => `https://cdn.jsdelivr.net/gh/leearaneta/callie@main/${filename}`)
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+
+  urls.value
+    .slice(0, chunkSize)
+    .forEach((url) => {
+      const imageEl = new Image()
+      imageEl.src = url
+    })
 })
 
-const selected = ref('Work Experience')
+const selectedIndex = ref<number>(0)
+const audio = new Audio(cursormove)
+
+watch(selectedIndex, () => {
+  audio.play()
+})
+
+const options = ['Work Experience', 'Skills', 'Projects', 'Callie']
 </script>
 
 <template>
@@ -31,8 +55,9 @@ const selected = ref('Work Experience')
       <div v-if="width >= 750" class="menu">
         <div class="h-full section py-4 px-2">
           <VerticalSelection
-            :options="['Work Experience', 'Skills', 'Projects', 'Callie']"
-            @select="selected = $event"
+            :options="options"
+            :selectedIndex="selectedIndex"
+            @select="selectedIndex = $event"
           />
         </div>
       </div>
@@ -40,10 +65,10 @@ const selected = ref('Work Experience')
     <Transition name="left" appear>
       <div v-if="width >= 750" class="body">
         <div class="h-full section py-4 pl-10 pr-28 flex flex-col">
-          <WorkExperience v-if="selected === 'Work Experience'" />
-          <TheSkills v-if="selected === 'Skills'" />
-          <TheProjects v-if="selected === 'Projects'" />
-          <TheCallie v-if="selected === 'Callie'" />
+          <WorkExperience v-if="options[selectedIndex] === 'Work Experience'" />
+          <TheSkills v-if="options[selectedIndex] === 'Skills'" />
+          <TheProjects v-if="options[selectedIndex] === 'Projects'" />
+          <TheCallie v-if="options[selectedIndex] === 'Callie'" :urls="urls" :chunkSize="chunkSize" />
         </div>
       </div>
     </Transition>
@@ -75,7 +100,7 @@ const selected = ref('Work Experience')
             </div>
             <div class="h-full">
               <div class="mb-4"> Callie </div>
-              <div class="h-full pb-2"> <TheCallie /> </div>
+              <div class="h-full pb-2"> <TheCallie :urls="urls" :chunkSize="chunkSize" /> </div>
             </div>
           </div>
         </div>
