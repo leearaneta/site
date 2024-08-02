@@ -1,21 +1,23 @@
 <template>
-  <div
-    v-for="(option, idx) in options"
-    :key="idx"
-  >
-    <div class="flex">
-      <span
-        class="flex-none mt-3 mb-3"
-        :class="{ invisible: idx !== selectedIndex }"
-      >
-        <img width="36" :src="cursor"/>
-      </span>
-      <span
-        class="cursor-pointer ml-2"
-        @click="$emit('select', idx)"
-      >
-        {{ option }}
-      </span>
+  <div class="flex gap-6 flex-wrap md:flex-col max-md:gap-y-2 max-md:justify-between max-md:text-sm">
+    <div
+      v-for="(option, idx) in options"
+      :key="idx"
+    >
+      <div class="flex">
+        <span
+          class="flex-none"
+          :class="{ invisible: idx !== selectedIndex }"
+        >
+          <img width="36" :src="cursor"/>
+        </span>
+        <span
+          class="cursor-pointer ml-2"
+          @click="$emit('select', idx)"
+        >
+          {{ option }}
+        </span>
+      </div>
     </div>
   </div>
 </template>

@@ -39,7 +39,7 @@ watch(selectedIndex, () => {
   audio.play()
 })
 
-const options = ['Work Experience', 'Skills', 'Projects', 'Callie']
+const options = ['For Work', 'For Fun', 'Skills', 'Callie']
 </script>
 
 <template>
@@ -47,14 +47,22 @@ const options = ['Work Experience', 'Skills', 'Projects', 'Callie']
     <Transition name="left" appear>
       <div class="profile">
         <div class="h-full section profile-padding flex">
-          <TheProfile />
+          <TheProfile>
+            <VerticalSelection
+              v-if="width <= 768"
+              :options="options"
+              :selectedIndex="selectedIndex"
+              @select="selectedIndex = $event"
+            />
+          </TheProfile>
         </div>
       </div>
     </Transition>
     <Transition name="down" appear>
-      <div v-if="width >= 750" class="menu">
+      <div class="menu max-md:hidden">
         <div class="h-full section py-4 px-2">
           <VerticalSelection
+            v-if="width > 768"
             :options="options"
             :selectedIndex="selectedIndex"
             @select="selectedIndex = $event"
@@ -63,54 +71,31 @@ const options = ['Work Experience', 'Skills', 'Projects', 'Callie']
       </div>
     </Transition>
     <Transition name="left" appear>
-      <div v-if="width >= 750" class="body">
-        <div class="h-full section py-4 pl-10 pr-28 flex flex-col">
-          <WorkExperience v-if="options[selectedIndex] === 'Work Experience'" />
-          <TheSkills v-if="options[selectedIndex] === 'Skills'" />
-          <TheProjects v-if="options[selectedIndex] === 'Projects'" />
-          <TheCallie v-if="options[selectedIndex] === 'Callie'" :urls="urls" :chunkSize="chunkSize" />
+      <div class="body">
+        <div class="h-full section py-4 px-10 pr-28 max-md:px-6 flex flex-col">
+          <div class="h-full overflow-scroll">
+            <WorkExperience v-if="options[selectedIndex] === 'For Work'" />
+            <TheSkills v-if="options[selectedIndex] === 'Skills'" />
+            <TheProjects v-if="options[selectedIndex] === 'For Fun'" />
+            <TheCallie v-if="options[selectedIndex] === 'Callie'" :urls="urls" :chunkSize="chunkSize" />
+          </div>
         </div>
       </div>
     </Transition>
     <Transition name="right" appear>
-      <div v-if="width >= 750" class="time">
+      <div class="time max-md:hidden">
         <div class="h-full section p-4"> what goes here? </div>
       </div>
     </Transition>
     <Transition name="right" appear>
-      <div v-if="width >= 750" class="location">
+      <div class="location max-md:hidden">
         <div class="h-full section p-4 flex items-center"> Brooklyn, NY </div>
-      </div>
-    </Transition>
-    <Transition name="up" appear>
-      <div v-if="width < 750" class="scrollable">
-        <div class="h-full section flex flex-col">
-          <div class="overflow-scroll w-full p-4">
-            <div class="mb-4">
-              <div class="mb-2"> Work Experience </div>
-              <div> <WorkExperience /> </div>
-            </div>
-            <div class="mb-4">
-              <div class="mb-2"> Skills </div>
-              <div> <TheSkills /> </div>
-            </div>
-            <div class="mb-4">
-              <div class="mb-2"> Projects </div>
-              <div> <TheProjects /> </div>
-            </div>
-            <div class="h-full">
-              <div class="mb-4"> Callie </div>
-              <div class="h-full pb-2"> <TheCallie :urls="urls" :chunkSize="chunkSize" /> </div>
-            </div>
-          </div>
-        </div>
       </div>
     </Transition>
   </div>
 </template>
 
 <style scoped>
-
 .grid {
   height: 100%;
 }
@@ -121,7 +106,7 @@ const options = ['Work Experience', 'Skills', 'Projects', 'Callie']
   }
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 768px) {
   .grid {
     margin: auto;
     grid-template-columns: 1fr 30rem 5rem 15rem;
@@ -161,7 +146,7 @@ const options = ['Work Experience', 'Skills', 'Projects', 'Callie']
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 768px) {
   .grid {
     grid-template-rows: 25vh 75vh;
     overflow: hidden;

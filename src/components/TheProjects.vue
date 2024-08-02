@@ -1,3 +1,3 @@
 <template>
-  Projects
+  For Fun
 </template>

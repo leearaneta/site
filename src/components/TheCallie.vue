@@ -1,16 +1,16 @@
 <template>
   <div class="flex h-full justify-center">
-    <div v-if="urls.length > 0" class="flex h-full w-full" ref="container">
+    <div v-if="urls.length > 0" class="flex w-full" ref="container">
       <Transition :key="groupIndex" :name="transition" appear>
         <div
-          class="h-full flex justify-evenly cursor-pointer"
+          class="flex justify-evenly cursor-pointer"
           @click="transitionForward()"
           @touchstart="touchstartX = $event.changedTouches[0].screenX"
           @touchend="onTouchEnd"
         >
           <img
             v-for="url in groups[groupIndex]"
-            class="image h-full"
+            class="image"
             :key="url"
             :src="url"
           />
@@ -207,9 +207,10 @@ watch(container, (newVal, oldVal) => {
 
 <style scoped>
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 768px) {
   .image {
     max-height: 100%;
+    max-width: 100%;
   }
 }
 

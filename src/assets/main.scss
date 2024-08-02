@@ -27,6 +27,10 @@ body {
   }
 }
 
+.heading {
+  background: linear-gradient(to right, rgb(20, 102, 255) 60%,rgb(190, 213, 255));
+}
+
 .section {
   position: relative;
   background: -webkit-radial-gradient(-5% 0px, circle, #0053ad 30%, #001b85 60%, #000223);
