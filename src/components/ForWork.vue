@@ -8,7 +8,7 @@
         <span class="text-sm"> Dec '23 - now </span>
       </div>
       <div>
-        Iterated with C-suite of startup company to architect a data entry app with 500k+ manually entered rows
+        Iterated with C-suite to architect a data entry app with 500k+ manually entered rows
       </div>
       <ul class="text-sm flex flex-col gap-2">
         <li>

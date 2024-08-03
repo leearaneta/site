@@ -1,3 +1,0 @@
-<template>
-  For Fun
-</template>

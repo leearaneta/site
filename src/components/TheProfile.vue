@@ -28,7 +28,7 @@ import profile from '@/assets/profile.jpeg'
             </svg>
           </a>
         </div>
-        <span class="max-md:hidden"> Software Engineer </span>
+        <span class="max-md:hidden"> Fullstack Developer </span>
       </div>
       <div class="flex flex-col gap-1 max-md:hidden">
         <div class="flex gap-2">

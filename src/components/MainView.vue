@@ -3,9 +3,9 @@ import { onMounted, ref, watch } from 'vue';
 import cursormove from '@/assets/cursormove.mp3'
 import VerticalSelection from './VerticalSelection.vue';
 import TheProfile from './TheProfile.vue';
-import WorkExperience from './WorkExperience.vue'
-import TheSkills from './TheSkills.vue';
-import TheProjects from './TheProjects.vue';
+import ForWork from './ForWork.vue'
+import AboutMe from './AboutMe.vue';
+import ForFun from './ForFun.vue';
 import TheCallie from './TheCallie.vue';
 
 const width = ref(window.innerWidth)
@@ -23,13 +23,6 @@ onMounted(async () => {
     .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value)
-
-  urls.value
-    .slice(0, chunkSize)
-    .forEach((url) => {
-      const imageEl = new Image()
-      imageEl.src = url
-    })
 })
 
 const selectedIndex = ref<number>(0)
@@ -39,7 +32,7 @@ watch(selectedIndex, () => {
   audio.play()
 })
 
-const options = ['For Work', 'For Fun', 'Skills', 'Callie']
+const options = ['About Me', 'For Work', 'For Fun', 'Callie']
 </script>
 
 <template>
@@ -74,19 +67,27 @@ const options = ['For Work', 'For Fun', 'Skills', 'Callie']
       <div class="body">
         <div class="h-full section py-4 px-10 pr-28 max-md:px-6 flex flex-col">
           <div class="h-full overflow-scroll">
-            <WorkExperience v-if="options[selectedIndex] === 'For Work'" />
-            <TheSkills v-if="options[selectedIndex] === 'Skills'" />
-            <TheProjects v-if="options[selectedIndex] === 'For Fun'" />
+            <ForWork v-if="options[selectedIndex] === 'For Work'" />
+            <AboutMe v-if="options[selectedIndex] === 'About Me'" />
+            <ForFun v-if="options[selectedIndex] === 'For Fun'" />
             <TheCallie v-if="options[selectedIndex] === 'Callie'" :urls="urls" :chunkSize="chunkSize" />
           </div>
         </div>
       </div>
     </Transition>
-    <Transition name="right" appear>
+    <!-- <Transition name="right" appear>
       <div class="time max-md:hidden">
-        <div class="h-full section p-4"> what goes here? </div>
+        <div class="h-full section p-4 flex flex-col justify-around">
+          <div> inspired by the </div>
+          <a
+            href="https://i.ytimg.com/vi/VM-h84dIPJ4/maxresdefault.jpg"
+            target="_blank"
+          >
+            final fantasy 7 menu
+          </a>
+        </div>
       </div>
-    </Transition>
+    </Transition> -->
     <Transition name="right" appear>
       <div class="location max-md:hidden">
         <div class="h-full section p-4 flex items-center"> Brooklyn, NY </div>
